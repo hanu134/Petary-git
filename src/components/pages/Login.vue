@@ -17,7 +17,7 @@
             </div>
             <div class="form-group login__submit">
               <div class="text-center mb-4">
-                <button id="login__submit-button" @click="login" class="btn btn-info pr-5 pl-5">
+                <button @click="login" class="btn btn-info pr-5 pl-5">
                   ログイン
                 </button>
               </div>
@@ -36,35 +36,35 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from 'firebase'
 
 export default {
-  name: "Login",
-  data() {
+  name: 'Login',
+  data () {
     return {
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   },
   methods: {
-    login() {
+    login () {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.$router.push("/users");
-          console.log("ログイン成功");
+        .then((user) => {
+          this.$router.push('/users')
+          console.log('ログイン成功')
         })
         .catch((error) => {
-          console.error("ログインエラー", error);
-        });
+          console.error('ログインエラー', error)
+        })
     }
   }
-};
+}
 </script>
 
 <style>
-.logo:hover {
-  text-decoration: none;
-}
+  .logo:hover {
+    text-decoration: none;
+  }
 </style>

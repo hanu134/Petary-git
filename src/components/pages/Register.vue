@@ -17,7 +17,10 @@
             </div>
           </div>
           <form id="register-form">
-            <div class="border-top form-group">
+            <div class="border-top form-group id-form">
+              <input id="register-id" type="text" class="form-control mt-3" placeholder="ユーザーID" v-model="ID" onblur="check">
+            </div>
+            <div class="form-group">
               <input id="register-name" type="text" class="form-control mt-3" placeholder="ユーザーネーム" v-model="name">
             </div>
             <div class="form-group">
@@ -28,7 +31,7 @@
             </div>
             <div class="form-group register__submit">
               <div class="text-center">
-                <button id="register__submit-button" v-on:click="register" class="btn btn-info pr-5 pl-5">
+                <button @click="register" class="btn btn-info pr-5 pl-5">
                   作成
                 </button>
               </div>
@@ -50,45 +53,48 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase'
 
 export default {
-  name: "Register",
-  data() {
+  name: 'Register',
+  data () {
     return {
-      name: "",
-      email: "",
-      password: ""
-    };
+      ID: '',
+      name: '',
+      email: '',
+      password: ''
+    }
   },
   methods: {
-    register: function() {
+    register () {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          createUserInDB(firebase.auth().currentUser,this.name);
-          this.$router.push("/users");
-        });
+        .then((user) => {
+          createUserInDB(this.ID, this.name)
+          this.$router.push('/users')
+        })
+        .catch((error) => {
+          console.log('アカウント作成エラー', error)
+        })
     }
   }
-};
+}
 
-const createUserInDB = (user, name) => {
+const createUserInDB = (userid, name) => {
   firebase
     .database()
-    .ref(`users/${user.uid}`)
+    .ref(`users/${userid}`)
     .set({
       username: name,
-      createdAt: firebase.database.ServerValue.TIMESTAMP,
-    });
-  console.log("createUserInDB");
-};
-
+      createdAt: firebase.database.ServerValue.TIMESTAMP
+    })
+  console.log('createUserInDB')
+}
 </script>
 
 <style>
-.logo:hover {
-  text-decoration: none;
-}
+  .logo:hover {
+    text-decoration: none;
+  }
 </style>

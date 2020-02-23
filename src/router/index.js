@@ -1,43 +1,43 @@
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-import Router from 'vue-router';
-import Top from "@/components/pages/Top";
-import Login from "@/components/pages/Login";
-import Register from "@/components/pages/Register";
-import Userspage from "@/components/pages/Userspage";
-import firebase from "firebase";
+import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
+import Router from 'vue-router'
+import Top from '@/components/pages/Top'
+import Login from '@/components/pages/Login'
+import Register from '@/components/pages/Register'
+import Userspage from '@/components/pages/Userspage'
+import firebase from 'firebase'
 
-Vue.use(Router);
-Vue.use(BootstrapVue);
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+Vue.use(Router)
+Vue.use(BootstrapVue)
 
 let router = new Router({
   routes: [
     {
-      path: "*",
-      redirect: "top"
+      path: '*',
+      redirect: 'top'
     },
     {
       path: '/',
       component: Top
     },
     {
-      path: "/login",
+      path: '/login',
       component: Login
     },
     {
-      path: "/register",
+      path: '/register',
       component: Register
     },
     {
-      path: "/users",
+      path: '/users',
       component: Userspage,
       meta: { requiresAuth: true}
     }
   ]
-});
+})
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)

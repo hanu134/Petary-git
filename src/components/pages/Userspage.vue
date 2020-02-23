@@ -7,7 +7,7 @@
         <font-awesome-icon icon="crown" size="2x" type="button" class="icon" />
       </nav>
     </header>
-    
+
     <footer class="fixed-bottom">
       <nav class="navbar bg-light p-3 justify-content-around">
         <font-awesome-icon icon="home" size="2x" type="button" class="icon" />
@@ -19,25 +19,25 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from 'firebase'
 
 export default {
   methods: {
-    logout() {
+    logout () {
       firebase
         .auth()
         .signOut()
         .then(() => {
-          console.log("ログアウト成功");
-          this.$router.push("/");
-        });
+          console.log('ログアウト成功')
+          this.$router.push('/')
+        })
     }
   }
-};
+}
 </script>
 
 <style>
-.icon {
-  color: gray;
-}
+  .icon {
+    color: gray;
+  }
 </style>
