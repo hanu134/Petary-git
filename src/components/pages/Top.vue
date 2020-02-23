@@ -8,7 +8,7 @@
       <div class="container">
           <div class="text-center">
               <div class="d-inline-flex flex-column">
-                  <router-link to="/login"><button class="btn btn-info mt-2 login-button"> 　　 ログイン 　　 </button></router-link>
+                  <router-link to="/login"><button class="btn btn-info mt-2 login-button">ログイン</button></router-link>
                   <router-link to="/register"><button class="btn btn-info mt-3 register-button">新規アカウント作成</button></router-link>
               </div>
           </div>

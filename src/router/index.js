@@ -34,7 +34,7 @@ let router = new Router({
     {
       path: '/users',
       component: Userspage,
-      meta: { requiresAuth: true}
+      meta: {requiresAuth: true}
     }
   ]
 })
