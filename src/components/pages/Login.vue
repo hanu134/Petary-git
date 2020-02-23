@@ -8,21 +8,19 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-6">
-          <form id="login-form">
-            <div class="form-group">
-              <input id="login-email" type="email" class="form-control mt-3" placeholder="メールアドレス" v-model="email">
+          <div class="form-group">
+            <input id="login-email" type="email" class="form-control mt-3" placeholder="メールアドレス" v-model="email">
+          </div>
+          <div class="form-group">
+            <input id="login-password" type="password" class="form-control" placeholder="パスワード" v-model="password">
+          </div>
+          <div class="form-group login__submit">
+            <div class="text-center mb-4">
+              <button @click="login" class="btn btn-info pr-5 pl-5">
+                ログイン
+              </button>
             </div>
-            <div class="form-group">
-              <input id="login-password" type="password" class="form-control" placeholder="パスワード" v-model="password">
-            </div>
-            <div class="form-group login__submit">
-              <div class="text-center mb-4">
-                <button @click="login" class="btn btn-info pr-5 pl-5">
-                  ログイン
-                </button>
-              </div>
-            </div>
-          </form>
+          </div>
           <div class="border-top text-center">
             <div class="text-muted mt-4">
               アカウントをお持ちでない場合

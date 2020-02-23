@@ -16,30 +16,28 @@
               ...
             </div>
           </div>
-          <form id="register-form">
-            <div class="border-top form-group id-form">
-              <input id="register-id" type="text" class="form-control mt-3" placeholder="ユーザーID" v-model="ID" onblur="check">
+          <div class="border-top form-group id-form">
+            <input id="register-id" type="text" class="form-control mt-3" placeholder="ユーザーID" v-model="ID" onblur="check">
+          </div>
+          <div class="form-group">
+            <input id="register-name" type="text" class="form-control mt-3" placeholder="ユーザーネーム" v-model="name">
+          </div>
+          <div class="form-group">
+            <input id="register-email" type="email" class="form-control mt-3" placeholder="メールアドレス" v-model="email">
+          </div>
+          <div class="form-group">
+            <input id="register-password" type="password" class="form-control" placeholder="パスワード" v-model="password">
+          </div>
+          <div class="form-group register__submit">
+            <div class="text-center">
+              <button @click="register" class="btn btn-info pr-5 pl-5">
+                作成
+              </button>
             </div>
-            <div class="form-group">
-              <input id="register-name" type="text" class="form-control mt-3" placeholder="ユーザーネーム" v-model="name">
+            <div class="text-center text-muted mr-5 ml-5 mb-4">
+              <small>アカウントを作成することで、Petaryの利用規約に同意するものとします。</small>
             </div>
-            <div class="form-group">
-              <input id="register-email" type="email" class="form-control mt-3" placeholder="メールアドレス" v-model="email">
-            </div>
-            <div class="form-group">
-              <input id="register-password" type="password" class="form-control" placeholder="パスワード" v-model="password">
-            </div>
-            <div class="form-group register__submit">
-              <div class="text-center">
-                <button @click="register" class="btn btn-info pr-5 pl-5">
-                  作成
-                </button>
-              </div>
-              <div class="text-center text-muted mr-5 ml-5 mb-4">
-                <small>アカウントを作成することで、Petaryの利用規約に同意するものとします。</small>
-              </div>
-            </div>
-          </form>
+          </div>
           <div class="border-top text-center">
             <div class="text-muted mt-4">
               既にアカウントをお持ちの場合
