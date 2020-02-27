@@ -35,9 +35,9 @@ export default {
     jumpUsers () {
       const vm = this
       const uid = firebase.auth().currentUser.uid
-      const firebaseRef = firebase.database().ref(`/users/${uid}`)
-      firebaseRef.once('value', function (snapshot) {
-        const id = snapshot.val().id
+      firebase.database().ref(`/users`).orderByChild('uid').equalTo(uid).once('value', function (snapshot) {
+        const id = Object.keys(snapshot.val()).pop()
+        console.log('userid:' + id)
         vm.$router.push({name: 'users', params: {id: id}})
       })
     }

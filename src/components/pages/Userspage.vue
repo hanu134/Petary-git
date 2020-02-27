@@ -8,10 +8,12 @@
       </nav>
     </header>
 
+<vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+
     <footer class="fixed-bottom">
       <nav class="navbar bg-light p-3 justify-content-around">
         <router-link to="/timeline"><font-awesome-icon icon="home" size="2x" type="button" class="icon" /></router-link>
-        <font-awesome-icon icon="edit" size="2x" type="button" class="icon" />
+        <font-awesome-icon icon="edit" size="2x" type="button" class="icon" data-toggle="modal" data-target="#modal1" />
         <font-awesome-icon icon="user" size="2x" type="button" class="icon" @click="jumpUsers" />
       </nav>
     </footer>
@@ -20,8 +22,25 @@
 
 <script>
 import firebase from 'firebase'
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
+  name: 'app',
+  components: {
+    vueDropzone: vue2Dropzone
+  },
+  data () {
+    return {
+      dropzoneOptions: {
+        url: 'https://httpbin.org/post',
+        thumbnailWidth: 200,
+        addRemoveLinks: true,
+        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i>UPLOAD ME",
+        maxFiles: 3
+      }
+    }
+  },
   methods: {
     logout () {
       firebase
@@ -35,9 +54,9 @@ export default {
     jumpUsers () {
       const vm = this
       const uid = firebase.auth().currentUser.uid
-      const firebaseRef = firebase.database().ref(`/users/${uid}`)
-      firebaseRef.once('value', function (snapshot) {
-        const id = snapshot.val().id
+      firebase.database().ref(`/users`).orderByChild('uid').equalTo(uid).once('value', function (snapshot) {
+        const id = Object.keys(snapshot.val()).pop()
+        console.log('userid:' + id)
         vm.$router.push({name: 'users', params: {id: id}})
       })
     }

@@ -69,7 +69,7 @@ export default {
       const vm = this
       console.log('check')
       // TODO:users参照のためDatabaseルールでusersのread権限を公開中
-      firebase.database().ref(`/userids/${this.id}`).once('value', function (snapshot) {
+      firebase.database().ref(`/users/${this.id}`).once('value', function (snapshot) {
         console.log(snapshot)
         console.log(snapshot.val())
         if (snapshot.val() !== null) {
@@ -84,7 +84,7 @@ export default {
     register () {
       // TODO:リファクタリング必要(vmとthis周り)
       const vm = this
-      firebase.database().ref(`/userids/${this.id}`).once('value', function (snapshot) {
+      firebase.database().ref(`/users/${this.id}`).once('value', function (snapshot) {
         console.log(snapshot.val())
         if (snapshot.val() !== null) {
           console.log('Id使用不可')
@@ -94,7 +94,6 @@ export default {
             .createUserWithEmailAndPassword(vm.email, vm.password)
             .then((user) => {
               createUserInDB(vm.id, vm.name, firebase.auth().currentUser)
-              saveIdInDB(vm.id, vm.name)
               vm.$router.push({name: 'users', params: {id: vm.id}})
             })
             .catch((error) => {
@@ -106,22 +105,12 @@ export default {
   }
 }
 
-const saveIdInDB = (userid, name) => {
-  firebase
-    .database()
-    .ref(`userids/${userid}`)
-    .set({
-      user: name
-    })
-  console.log('saveIdInDB')
-}
-
 const createUserInDB = (userid, name, user) => {
   firebase
     .database()
-    .ref(`users/${user.uid}`)
+    .ref(`users/${userid}`)
     .set({
-      id: userid,
+      uid: user.uid,
       username: name,
       createdAt: firebase.database.ServerValue.TIMESTAMP
     })

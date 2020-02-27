@@ -46,7 +46,7 @@ let router = new Router({
     },
     {
       path: '/ranking',
-      component: Ranking,
+      component: Ranking
     }
   ]
 })
