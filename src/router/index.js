@@ -5,6 +5,8 @@ import Top from '@/components/pages/Top'
 import Login from '@/components/pages/Login'
 import Register from '@/components/pages/Register'
 import Userspage from '@/components/pages/Userspage'
+import Timeline from '@/components/pages/Timeline'
+import Ranking from '@/components/pages/Ranking'
 import firebase from 'firebase'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -32,9 +34,19 @@ let router = new Router({
       component: Register
     },
     {
-      path: '/users',
+      path: '/users/:id',
+      name: 'users',
       component: Userspage,
       meta: {requiresAuth: true}
+    },
+    {
+      path: '/timeline',
+      component: Timeline,
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/ranking',
+      component: Ranking,
     }
   ]
 })

@@ -17,8 +17,8 @@
             </div>
           </div>
           <form id="register-form">
-            <div class="border-top form-group id-form">
-              <input id="register-id" type="text" class="form-control mt-3" placeholder="ユーザーID" v-model="ID" onblur="check">
+            <div class="border-top form-group id-input">
+              <input id="register-id" type="text" v-bind:class="{ 'is-invalid':inValid }" class="form-control mt-3" placeholder="ユーザーID" v-model="id" @blur="check">
             </div>
             <div class="form-group">
               <input id="register-name" type="text" class="form-control mt-3" placeholder="ユーザーネーム" v-model="name">
@@ -59,33 +59,71 @@ export default {
   name: 'Register',
   data () {
     return {
-      ID: '',
+      id: '',
+      inValid: false,
       name: '',
       email: '',
       password: ''
     }
   },
   methods: {
+    check () {
+      const vm = this
+      console.log('check')
+      // TODO:users参照のためDatabaseルールでusersのread権限を公開中
+      firebase.database().ref(`/userids/${this.id}`).once('value', function (snapshot) {
+        console.log(snapshot)
+        console.log(snapshot.val())
+        if (snapshot.val() !== null) {
+          console.log('id使用不可')
+          vm.inValid = true
+        } else {
+          console.log('id使用可能')
+          vm.inValid = false
+        }
+      })
+    },
     register () {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then((user) => {
-          createUserInDB(this.ID, this.name)
-          this.$router.push('/users')
-        })
-        .catch((error) => {
-          console.log('アカウント作成エラー', error)
-        })
+      // TODO:リファクタリング必要(vmとthis周り)
+      const vm = this
+      firebase.database().ref(`/userids/${this.id}`).once('value', function (snapshot) {
+        console.log(snapshot.val())
+        if (snapshot.val() !== null) {
+          console.log('Id使用不可')
+        } else {
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(vm.email, vm.password)
+            .then((user) => {
+              createUserInDB(vm.id, vm.name, firebase.auth().currentUser)
+              saveIdInDB(vm.id, vm.name)
+              vm.$router.push({name: 'users', params: {id: vm.id}})
+            })
+            .catch((error) => {
+              console.log('アカウント作成エラー', error)
+            })
+        }
+      })
     }
   }
 }
 
-const createUserInDB = (userid, name) => {
+const saveIdInDB = (userid, name) => {
   firebase
     .database()
-    .ref(`users/${userid}`)
+    .ref(`userids/${userid}`)
     .set({
+      user: name
+    })
+  console.log('saveIdInDB')
+}
+
+const createUserInDB = (userid, name, user) => {
+  firebase
+    .database()
+    .ref(`users/${user.uid}`)
+    .set({
+      id: userid,
       username: name,
       createdAt: firebase.database.ServerValue.TIMESTAMP
     })

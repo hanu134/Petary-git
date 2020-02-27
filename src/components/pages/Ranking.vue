@@ -1,10 +1,8 @@
 <template>
-  <div class="userpage">
+  <div class="timeline">
     <header class="fixed-top mb-3">
       <nav class="navbar bg-light p-3 justify-content-around">
-        <font-awesome-icon icon="sign-out-alt" flip="horizontal" size="2x" @click="logout" type="button" class="icon" />
-        <h2>{{$route.params.id}}</h2>
-        <router-link to="/ranking"><font-awesome-icon icon="crown" size="2x" type="button" class="icon" /></router-link>
+          <h2>ランキング</h2>
       </nav>
     </header>
 
@@ -23,15 +21,6 @@ import firebase from 'firebase'
 
 export default {
   methods: {
-    logout () {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          console.log('ログアウト成功')
-          this.$router.push('/')
-        })
-    },
     jumpUsers () {
       const vm = this
       const uid = firebase.auth().currentUser.uid

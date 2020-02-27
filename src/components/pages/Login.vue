@@ -48,11 +48,17 @@ export default {
   },
   methods: {
     login () {
+      const vm = this
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then((user) => {
-          this.$router.push('/users')
+          const uid = firebase.auth().currentUser.uid
+          const firebaseRef = firebase.database().ref(`/users/${uid}`)
+          firebaseRef.once('value', function (snapshot) {
+            const id = snapshot.val().id
+            vm.$router.push({name: 'users', params: {id: id}})
+          })
           console.log('ログイン成功')
         })
         .catch((error) => {
