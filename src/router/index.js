@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
+import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import Router from 'vue-router'
 import Top from '@/components/pages/Top'
 import Login from '@/components/pages/Login'
@@ -14,6 +14,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 let router = new Router({
   routes: [
